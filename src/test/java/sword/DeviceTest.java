@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 import org.junit.Test;
 
-import com.tigerjoys.sword.cleaner.DevsCleaner;
+import com.tigerjoys.sword.cleaner.Cleaner;
 import com.tigerjoys.sword.config.Config;
 
 public class DeviceTest {
@@ -21,7 +21,7 @@ public class DeviceTest {
 		Scanner stdin = new Scanner(System.in);
 		System.out.println("请输入数据：");
 		String line = stdin.nextLine();
-		DevsCleaner devCleaner = new DevsCleaner();
+		Cleaner devCleaner = new Cleaner();
 //		int type = devCleaner.getLogType(line);
 //		System.out.print(type);
 		
