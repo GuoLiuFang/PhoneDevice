@@ -58,17 +58,21 @@ public class Config {
 	public static String FIELDS_D_DEVS = prop.getProperty("FIELDS_D_DEVS");
 	public static String FIELDS_EVENT_ID = prop.getProperty("FIELDS_EVENT_ID");
 	public static String FIELDS_TIME_STAMP1  = prop.getProperty("FIELDS_TIME_STAMP1");
+	public static String FIELDS_B  = prop.getProperty("FIELDS_B");
 	public static String FIELDS_DID  = prop.getProperty("FIELDS_DID");
 	public static String FIELDS_SV = prop.getProperty("FIELDS_SV");
 	public static String FIELDS_TAG  = prop.getProperty("FIELDS_TAG");
 	public static String FIELDS_TIME_STAMP2  = prop.getProperty("FIELDS_TIME_STAMP2");
 	public static String FIELDS_IMEI1  = prop.getProperty("FIELDS_IMEI1");
 	public static String FIELDS_PKGN = prop.getProperty("FIELDS_PKGN");
+	//regular expression
+	public static String REGEX_DATETIME = prop.getProperty("REGEX_DATETIME");
+	public static String FORMAT_DATETIME = prop.getProperty("FORMAT_DATETIME");
 	
 	
 	
 	//标示字段，别名数组	
-	public static String[] TYPE_ALIAS_ARRAY = splitFieldsToArray(prop.getProperty("TYPE_ALIAS_ARRAY_JSON"),Config.SEPERATOR_COMMA);
+	public static String[] TYPE_ALIAS_ARRAY = splitFieldsToArray(prop.getProperty("TYPE_ALIAS_ARRAY"),Config.SEPERATOR_COMMA);
 	public static String[] DEVS_FIELDS = splitFieldsToArray(prop.getProperty("DEVS_FIELDS"),Config.SEPERATOR_COMMA);
 	
 	private static  String[] splitFieldsToArray(String Fields,String seperator){

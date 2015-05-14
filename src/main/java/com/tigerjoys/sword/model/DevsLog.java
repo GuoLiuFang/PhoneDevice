@@ -2,6 +2,10 @@ package com.tigerjoys.sword.model;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import javax.naming.spi.DirStateFactory.Result;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -59,10 +63,7 @@ public class DevsLog {
 
 	private String getDevsWithoutTime(String raw_devs) {
 		String result = "";
-		//使用正则把所有匹配到的时间，替换成为空。
-		String regex = "[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}";
-		result = raw_devs.replaceAll(regex, Config.SEPERATOR_NULL);
-		
+		result = raw_devs.replaceAll(Config.REGEX_DATETIME, Config.SEPERATOR_NULL);
 		return result;
 	}
 
@@ -91,35 +92,61 @@ public class DevsLog {
 		} else {
 			result = root.getAsJsonObject().get(Config.FIELDS_A).getAsString();
 		}
+		
 		return result;
 	}
 
 	public String getTime_stamp1(JsonElement root) {
-		return null;
+		String result = "";
+		if (root.getAsJsonObject().get(Config.FIELDS_TIME_STAMP1) != null) {
+			result = root.getAsJsonObject().get(Config.FIELDS_TIME_STAMP1).getAsString();
+		} else {
+			result = root.getAsJsonObject().get(Config.FIELDS_B).getAsString();
+		}
+		result = convertMillisecondsToDateTime(result);
+		return result;
+	}
+
+	private String convertMillisecondsToDateTime(String millisenconds) {
+		String result = "";
+		Date date = new Date(millisenconds);
+		SimpleDateFormat sdf = new SimpleDateFormat(Config.FORMAT_DATETIME);
+		result = sdf.format(date);
+		return result;
 	}
 
 	public String getDid(JsonElement root) {
-		return null;
+		String result = "";
+		result = root.getAsJsonObject().get(Config.FIELDS_DID).getAsString();
+		return result;
 	}
 
 	public String getSv(JsonElement root) {
-		return null;
+		String result = "";
+		result = root.getAsJsonObject().get(Config.FIELDS_SV).getAsString();
+		return result;
 	}
 
 	public String getTag(JsonElement root) {
-		return null;
+		String result = "";
+		result = root.getAsJsonObject().get(Config.FIELDS_TAG).getAsString();
+		return result;
 	}
 
-	public String getTime_stamp2(JsonElement root) {
-		return null;
-	}
+//	public String getTime_stamp2(JsonElement root) {
+//		return null;
+//	}
 
 	public String getImei1(JsonElement root) {
-		return null;
+		String result = "";
+		result = root.getAsJsonObject().get(Config.FIELDS_IMEI1).getAsString();
+		return result;
 	}
 
 	public String getPkgn(JsonElement root) {
-		return null;
+		String result = "";
+		result = root.getAsJsonObject().get(Config.FIELDS_PKGN).getAsString();
+		return result;
 	}
 
 }

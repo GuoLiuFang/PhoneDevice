@@ -21,9 +21,9 @@ public class DeviceTest {
 		Scanner stdin = new Scanner(System.in);
 		System.out.println("请输入数据：");
 		String line = stdin.nextLine();
-		Cleaner devCleaner = new Cleaner();
-//		int type = devCleaner.getLogType(line);
-//		System.out.print(type);
+		Cleaner cleaner = new Cleaner();
+		String result = cleaner.clean(line);
+		System.out.print(result);
 		
 //		
 	}
@@ -33,7 +33,10 @@ public class DeviceTest {
 		
 		
 		System.out.println("结果是");
-		System.out.println(Config.COMMA_SEPERATOR);
+		for (String  re : Config.TYPE_ALIAS_ARRAY) {
+			
+			System.out.println(re);
+		}
 	}
 
 }

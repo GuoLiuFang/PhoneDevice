@@ -20,7 +20,8 @@ public class Cleaner {
 		String result = "";
 		String log_type = getLogType(line);
 		try {
-			Method method = this.getClass().getMethod(log_type, String.class);//为空的时候是new Class<?>[0]
+			
+			Method method = this.getClass().getDeclaredMethod(log_type,String.class);//为空的时候是new Class<?>[0]
 			result = (String) method.invoke(this, line);
 		} catch (Exception e) {
 			logger.error(e.getMessage());
@@ -36,9 +37,11 @@ public class Cleaner {
 		String[] front_segments_back_segments = splitLine(line, Config.SEPERATOR_LEFT_BRACE);
 		String front_result = "";
 		String back_result = "";
+		StringBuffer sb = new StringBuffer();
 		front_result = getFront(front_segments_back_segments[Config.INDEX_FRONT_SEGMENTS]);
 		back_result = getBack(front_segments_back_segments[Config.INDEX_BACK_SEGMENTS]);
-		return null;
+		sb.append(front_result).append(Config.SEPERATOR_VERTICAL_BAR).append(back_result);
+		return sb.toString();
 	}
 
 	private String getBack(String back_segments) {
@@ -51,6 +54,7 @@ public class Cleaner {
 		JsonElement root = new JsonParser().parse(back_segments);
 		String result = "";
 		DevsLog devs_log = new DevsLog();
+		StringBuffer sb = new StringBuffer();
 		for (String field : Config.DEVS_FIELDS) {
 			
 			try {
@@ -60,10 +64,11 @@ public class Cleaner {
 				logger.error(e.getMessage());
 			}
 			
+			sb.append(result).append(Config.SEPERATOR_VERTICAL_BAR);
+			
 		}//for--java--refelction
-	
-		// TODO Auto-generated method stub
-		return null;
+		
+		return sb.substring(0, sb.length() - 1);
 	}
 
 

@@ -1,0 +1,6 @@
+2015-05-14 16:38:37,549 ERROR c.t.s.c.Cleaner [main] com.tigerjoys.sword.cleaner.Cleaner.cleanRuby(java.lang.String) 
+2015-05-14 16:43:06,679 ERROR c.t.s.c.Cleaner [main] [Ljava.lang.Object; cannot be cast to [Ljava.lang.Class; 
+2015-05-14 16:43:36,622 ERROR c.t.s.c.Cleaner [main] com.tigerjoys.sword.cleaner.Cleaner.cleanRuby() 
+2015-05-14 16:45:22,718 ERROR c.t.s.c.Cleaner [main] com.tigerjoys.sword.cleaner.Cleaner.cleanRuby(java.lang.String) 
+2015-05-14 16:48:24,595 ERROR c.t.s.c.Cleaner [main] null 
+2015-05-14 16:51:07,264 ERROR c.t.s.c.Cleaner [main] null 
