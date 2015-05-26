@@ -1,7 +1,6 @@
 package com.tigerjoys.sword.model;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.tigerjoys.sword.common.base.CommonKits;
 import com.tigerjoys.sword.config.DevsConfig;
@@ -15,79 +14,87 @@ public class DevsLog {
 
 	public String getApil(JsonElement root) {
 		String result = "";
-		result = root.getAsJsonObject().get(DevsConfig.FIELDS_APIL)
-				.getAsString();
+		JsonElement obj = root.getAsJsonObject().get(DevsConfig.FIELDS_APIL);
+		if (obj != null) {
+			result = obj.getAsString();
+		}
 		return result;
 	}
 
 	public String getUuid(JsonElement root) {
 		String result = "";
-		result = root.getAsJsonObject().get(DevsConfig.FIELDS_UUID)
-				.getAsString();
+		JsonElement obj = root.getAsJsonObject().get(DevsConfig.FIELDS_UUID);
+		if (obj != null) {
+			result = obj.getAsString();
+		}
 		return result;
 	}
 
 	public String getImsi1(JsonElement root) {
 		String result = "";
-		if (root.getAsJsonObject().get(DevsConfig.FIELDS_IMSI1) != null) {
-			result = root.getAsJsonObject().get(DevsConfig.FIELDS_IMSI1)
-					.getAsString();
+		JsonElement obj = root.getAsJsonObject().get(DevsConfig.FIELDS_IMSI1);
+		if (obj != null) {
+			result = obj.getAsString();
 		}
-		return result;
-	}
-
-	public String getTime_stamp(JsonElement root) {
-		String result = "";
-		result = root.getAsJsonObject().get(DevsConfig.FIELDS_TIME_STAMP)
-				.getAsString();
 		return result;
 	}
 
 	public String getMem_total(JsonElement root) {
 		String result = "";
-		result = root.getAsJsonObject().get(DevsConfig.FIELDS_MEM_TOTAL)
-				.getAsString();
+		JsonElement obj = root.getAsJsonObject().get(DevsConfig.FIELDS_MEM_TOTAL);
+		if (obj != null) {
+			result = obj.getAsString();
+		}
 		return result;
 	}
 
 	public String getData_free_space(JsonElement root) {
 		String result = "";
-		result = root.getAsJsonObject().get(DevsConfig.FIELDS_DATA_FREE_SPACE)
-				.getAsString();
+		JsonElement obj = root.getAsJsonObject().get(DevsConfig.FIELDS_DATA_FREE_SPACE);
+		if (obj != null) {
+			result = obj.getAsString();
+		}
 		return result;
 	}
 
 	public String getMem_free(JsonElement root) {
 		String result = "";
-		result = root.getAsJsonObject().get(DevsConfig.FIELDS_MEM_FREE)
-				.getAsString();
+		JsonElement obj = root.getAsJsonObject().get(DevsConfig.FIELDS_MEM_FREE);
+		if (obj != null) {
+			result = obj.getAsString();
+		}
 		return result;
 	}
 
 	public String getSystem_free_space(JsonElement root) {
 		String result = "";
-		result = root.getAsJsonObject()
-				.get(DevsConfig.FIELDS_SYSTEM_FREE_SPACE).getAsString();
+		JsonElement obj = root.getAsJsonObject().get(DevsConfig.FIELDS_SYSTEM_FREE_SPACE);
+		if (obj != null) {
+			result = obj.getAsString();
+		}
 		return result;
 	}
 
 	public String getLinux_v(JsonElement root) {
 		String result = "";
-		result = root.getAsJsonObject().get(DevsConfig.FIELDS_LINUX_V)
-				.getAsString();
-		// result = result.replaceAll(Config.REGEX_ENTER,
-		// Config.SEPERATOR_NULL);
+		JsonElement obj = root.getAsJsonObject().get(DevsConfig.FIELDS_LINUX_V);
+		if (obj != null) {
+			result = obj.getAsString();
+			result = result.replaceAll(DevsConfig.REGEX_ENTER, DevsConfig.SEPERATOR_NULL);
+		}
 		return result;
 	}
 
 	public String get_id(JsonElement root) {
 		String result = "";
-		if (root.getAsJsonObject().get(DevsConfig.FIELDS__ID) != null) {
-			result = root.getAsJsonObject().get(DevsConfig.FIELDS__ID)
-					.getAsString();
+		JsonElement obj = root.getAsJsonObject().get(DevsConfig.FIELDS__ID);
+		if ( obj != null) {
+			result = obj.getAsString();
 		} else {
-			result = root.getAsJsonObject().get(DevsConfig.FIELDS_A)
-					.getAsString();
+			obj = root.getAsJsonObject().get(DevsConfig.FIELDS_A);
+			if (obj != null) {
+				result = obj.getAsString();
+			}
 		}
 		return result;
 	}
@@ -96,91 +103,147 @@ public class DevsLog {
 		String result = "";
 		String raw_devs = "";
 		StringBuffer sb = new StringBuffer();
-		if (root.getAsJsonObject().get(DevsConfig.FIELDS_D) != null) {
-			raw_devs = root.getAsJsonObject().get(DevsConfig.FIELDS_D)
-					.getAsJsonObject().get(DevsConfig.FIELDS_D_REASONS_DEVS)
-					.getAsString();
+		JsonElement obj = root.getAsJsonObject().get(DevsConfig.FIELDS_D);
+		if (obj != null) {
+			obj = obj.getAsJsonObject().get(DevsConfig.FIELDS_D_REASONS_DEVS);
+			if (obj != null) {
+				raw_devs = obj.getAsString();
+			}
 		} else {
-			raw_devs = root.getAsJsonObject().get(DevsConfig.FIELDS_REASONS)
-					.getAsJsonObject().get(DevsConfig.FIELDS_D_REASONS_DEVS)
-					.getAsString();
+			obj = root.getAsJsonObject().get(DevsConfig.FIELDS_REASONS);
+			if (obj != null) {
+				obj = obj.getAsJsonObject().get(DevsConfig.FIELDS_D_REASONS_DEVS);
+				if (obj != null) {
+					raw_devs = obj.getAsString();
+				}
+			}
+		}
+		raw_devs = common_kits.formatDevsString(raw_devs);
+		String md5_devs = common_kits.getMd5(raw_devs);
+//		String raw_devs_without_time = common_kits.getDevsWithoutTime(raw_devs);
+		sb.append(md5_devs).append(DevsConfig.SEPERATOR_VERTICAL_BAR).append(raw_devs);
+		result = sb.toString();
+		return result;
+	}
+	
+	public String getDevs_array_md5(JsonElement root) {
+		String result = "";
+		String raw_devs = "";
+		StringBuffer sb = new StringBuffer();
+		JsonElement obj = root.getAsJsonObject().get(DevsConfig.FIELDS_DEVS_AARAY);
+		if (obj != null) {
+			JsonArray devs_array = obj.getAsJsonArray();
+			StringBuffer sb_without_time = new StringBuffer();
+			String permission = "";
+			String name = "";
+			String group = "";
+			String owner = "";
+			for (int i = 0; i < devs_array.size(); i++) {
+				permission = devs_array.get(i).getAsJsonObject().get(DevsConfig.FIELDS_DEVS_AARAY_PERMISSION).getAsString();
+				name = devs_array.get(i).getAsJsonObject().get(DevsConfig.FIELDS_DEVS_AARAY_NAME).getAsString();
+				group = devs_array.get(i).getAsJsonObject().get(DevsConfig.FIELDS_DEVS_AARAY_GROUP).getAsString();
+				owner = devs_array.get(i).getAsJsonObject().get(DevsConfig.FIELDS_DEVS_AARAY_OWNER).getAsString();
+				sb_without_time.append(permission).append(DevsConfig.SEPERATOR_TAB).append(owner).append(DevsConfig.SEPERATOR_TAB).append(group).append(DevsConfig.SEPERATOR_TAB).append(name).append(DevsConfig.REGEX_ENTER);
+			}
+			raw_devs = sb_without_time.toString();
 		}
 		String md5_devs = common_kits.getMd5(raw_devs);
-		String raw_devs_without_time = common_kits.getDevsWithoutTime(raw_devs);
-		sb.append(md5_devs).append(DevsConfig.SEPERATOR_VERTICAL_BAR)
-				.append(raw_devs).append(DevsConfig.SEPERATOR_VERTICAL_BAR)
-				.append(raw_devs_without_time);
+		sb.append(md5_devs).append(DevsConfig.SEPERATOR_VERTICAL_BAR).append(raw_devs);
 		result = sb.toString();
 		return result;
 	}
 
 	public String getEvent_id(JsonElement root) {
 		String result = "";
-		if (root.getAsJsonObject().get(DevsConfig.FIELDS_EVENT_ID) != null) {
-			result = root.getAsJsonObject().get(DevsConfig.FIELDS_EVENT_ID)
-					.getAsString();
+		JsonElement obj = root.getAsJsonObject().get(DevsConfig.FIELDS_EVENT_ID);
+		if (obj != null) {
+			result = obj.getAsString();
 		} else {
-			result = root.getAsJsonObject().get(DevsConfig.FIELDS_C)
-					.getAsString();
+			obj = root.getAsJsonObject().get(DevsConfig.FIELDS_C);
+			if (obj != null) {
+				result = obj.getAsString();
+			}
 		}
-
-		return result;
-	}
-
-	public String getTime_stamp1(JsonElement root) {
-		String result = "";
-		if (root.getAsJsonObject().get(DevsConfig.FIELDS_TIME_STAMP) != null) {
-			result = root.getAsJsonObject().get(DevsConfig.FIELDS_TIME_STAMP)
-					.getAsString();
-		} else {
-			result = root.getAsJsonObject().get(DevsConfig.FIELDS_B)
-					.getAsString();
-		}
-		result = convertMillisecondsToDateTime(result);
-		return result;
-	}
-
-	private String convertMillisecondsToDateTime(String millisenconds) {
-		String result = "";
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTimeInMillis(Long.parseLong(millisenconds));
-		SimpleDateFormat sdf = new SimpleDateFormat(
-				DevsConfig.REGEX_FORMAT_DATETIME);
-		result = sdf.format(calendar.getTime());
 		return result;
 	}
 
 	public String getDid(JsonElement root) {
 		String result = "";
-		result = root.getAsJsonObject().get(DevsConfig.FIELDS_DID)
-				.getAsString();
+		JsonElement obj = root.getAsJsonObject().get(DevsConfig.FIELDS_DID);
+		if (obj != null) {
+			result = obj.getAsString();
+		}
 		return result;
 	}
 
 	public String getSv(JsonElement root) {
 		String result = "";
-		result = root.getAsJsonObject().get(DevsConfig.FIELDS_SV).getAsString();
+		JsonElement obj = root.getAsJsonObject().get(DevsConfig.FIELDS_SV);
+		if (obj != null) {
+			result = obj.getAsString();
+		}
 		return result;
 	}
 
 	public String getTag(JsonElement root) {
 		String result = "";
-		result = root.getAsJsonObject().get(DevsConfig.FIELDS_TAG)
-				.getAsString();
+		JsonElement obj = root.getAsJsonObject().get(DevsConfig.FIELDS_TAG);
+		if (obj != null) {
+			result = obj.getAsString();
+		}
 		return result;
 	}
 
 	public String getImei1(JsonElement root) {
 		String result = "";
-		result = root.getAsJsonObject().get(DevsConfig.FIELDS_IMEI1)
-				.getAsString();
+		JsonElement obj = root.getAsJsonObject().get(DevsConfig.FIELDS_IMEI1);
+		if (obj != null) {
+			result = obj.getAsString();
+		}
 		return result;
 	}
 
 	public String getPkgn(JsonElement root) {
 		String result = "";
-		result = root.getAsJsonObject().get(DevsConfig.FIELDS_PKGN)
-				.getAsString();
+		JsonElement obj = root.getAsJsonObject().get(DevsConfig.FIELDS_PKGN);
+		if (obj != null) {
+			result = obj.getAsString();
+		}
+		return result;
+	}
+	
+	public String getModel(JsonElement root) {
+		String result = "";
+		JsonElement obj = root.getAsJsonObject().get(DevsConfig.FIELDS_MODEL);
+		if (obj != null) {
+			result = obj.getAsString();
+		}
+		return result;
+	}
+	
+	public String getBrand(JsonElement root) {
+		String result = "";
+		JsonElement obj = root.getAsJsonObject().get(DevsConfig.FIELDS_BRAND);
+		if (obj != null) {
+			result = obj.getAsString();
+		}
+		return result;
+	}
+
+	public String getAppid(JsonElement root) {
+		String result = "";
+		JsonElement obj = root.getAsJsonObject().get(DevsConfig.FIELDS_APPID);
+		if (obj != null) {
+			result = obj.getAsString();
+		}
+		return result;
+	}
+	public String getSucess(JsonElement root) {
+		String result = "";
+		JsonElement obj = root.getAsJsonObject().get(DevsConfig.FIELDS_SUCESS);
+		if (obj != null) {
+			result = obj.getAsString();
+		}
 		return result;
 	}
 

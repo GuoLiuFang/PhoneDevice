@@ -48,6 +48,12 @@ public class DevsCleaner {
 		result = cleanGeneralLog(line,resources);
 		return result;
 	}
+	
+	private String cleanJsonIn(String line, String resources) {
+		String result = "";
+		result = cleanGeneralLog(line,resources);
+		return result;
+	}
 
 	private String cleanGeneralLog(String line, String resources) {
 		String[] front_segments_back_segments = splitLine(line,
@@ -67,15 +73,13 @@ public class DevsCleaner {
 	private String convertRubyToJson(String back_segments) {
 		back_segments = back_segments.replaceAll(
 				DevsConfig.SEPERATOR_RIGHT_ARROW, DevsConfig.SEPERATOR_COLON);
-		int index_bad_begin = back_segments
-				.indexOf(DevsConfig.BAD_FIELD_TIME_STAMP);
+		int index_bad_begin = back_segments.indexOf(DevsConfig.BAD_FIELD_TIME_STAMP);
 		int index_bad_end = back_segments.indexOf(DevsConfig.SEPERATOR_COMMA,
 				index_bad_begin);
 		// index_bad_end + 1加一是为了把逗号包括在内
 		String remove_bad_string = back_segments.substring(index_bad_begin,
 				index_bad_end + 1);
-		back_segments = back_segments.replace(remove_bad_string,
-				DevsConfig.SEPERATOR_NULL);
+		back_segments = back_segments.replace(remove_bad_string,DevsConfig.SEPERATOR_NULL);
 		return back_segments;
 	}
 
@@ -123,6 +127,11 @@ public class DevsCleaner {
 				|| line.contains(DevsConfig.TYPE_ALIAS_ARRAY[DevsConfig.TYPE_ALIAS_INDEX_RUBY_1])) {
 			result[0] = DevsConfig.HANDLER_NAME_LOG_RUBY;
 			result[1] = DevsConfig.HANDLER_RESOURCES_LOG_RUBY;
+			return result;
+		}
+		if (line.contains(DevsConfig.TYPE_JSON_IN)) {
+			result[0] = DevsConfig.HANDLER_NAME_LOG_JSON_IN;
+			result[1] = DevsConfig.HANDLER_RESOURCES_LOG_JSON_IN;
 			return result;
 		}
 		return result;

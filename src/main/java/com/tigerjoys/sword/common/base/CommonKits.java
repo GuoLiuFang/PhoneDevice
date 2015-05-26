@@ -6,6 +6,7 @@ import java.security.MessageDigest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -37,12 +38,12 @@ public class CommonKits {
 		return result;
 	}
 
-	public String getDevsWithoutTime(String raw_devs) {
-		String result = "";
-		result = raw_devs.replaceAll(DevsConfig.REGEX_FIND_DATETIME,
-				DevsConfig.SEPERATOR_NULL);
-		return result;
-	}
+//	public String getDevsWithoutTime(String raw_devs) {
+//		String result = "";
+//		result = raw_devs.replaceAll(DevsConfig.REGEX_FIND_DATETIME,
+//				DevsConfig.SEPERATOR_NULL);
+//		return result;
+//	}
 
 	public String getMd5(String raw_devs) {
 		String result = "";
@@ -58,6 +59,25 @@ public class CommonKits {
 		} catch (Exception e) {
 			logger.error(this.getErrorMessage(e));
 		}
+		return result;
+	}
+
+	public String formatDevsString(String raw_devs) {
+		String result = "";
+		String[] devs_lines = raw_devs.split(DevsConfig.REGEX_ENTER);
+		StringBuffer sb_line = new StringBuffer();
+		for (String line : devs_lines) {
+			String[] line_elements = line.split(DevsConfig.SEPERATOR_TAB);
+			if (line_elements.length >= 4) {
+				StringBuffer sb_element = new StringBuffer();
+				for (int i = 0; i < 3 ; i++) {
+					sb_element.append(line_elements[i]).append(DevsConfig.SEPERATOR_TAB);
+				}
+				sb_element.append(line_elements.length - 1).append(DevsConfig.REGEX_ENTER);
+				sb_line.append(sb_element.toString());
+			}
+		}
+		result = sb_line.toString();
 		return result;
 	}
 

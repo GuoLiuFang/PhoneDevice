@@ -1,8 +1,11 @@
 package sword;
 
 import java.util.Scanner;
+
 import org.junit.Test;
+
 import com.tigerjoys.sword.cleaner.DevsCleaner;
+import com.tigerjoys.sword.common.base.CommonKits;
 
 public class DeviceTest {
 
@@ -13,6 +16,9 @@ public class DeviceTest {
 		String line = stdin.nextLine();
 		DevsCleaner cleaner = new DevsCleaner();
 		String result = cleaner.clean(line);
+//		CommonKits common_kits = new CommonKits();
+//		String line = "";
+//		String result = common_kits.formatDevsString(line);
 		System.out.print(result);
 	}
 
