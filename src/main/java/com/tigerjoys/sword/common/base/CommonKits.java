@@ -66,16 +66,29 @@ public class CommonKits {
 		String result = "";
 		String[] devs_lines = raw_devs.split(DevsConfig.REGEX_ENTER);
 		StringBuffer sb_line = new StringBuffer();
+		Pattern pattern = Pattern.compile(DevsConfig.REGEX_FIND_DATETIME);
+		Matcher matcher = null;
 		for (String line : devs_lines) {
-			String[] line_elements = line.split(DevsConfig.SEPERATOR_TAB);
-			if (line_elements.length >= 4) {
-				StringBuffer sb_element = new StringBuffer();
-				for (int i = 0; i < 3 ; i++) {
-					sb_element.append(line_elements[i]).append(DevsConfig.SEPERATOR_TAB);
-				}
-				sb_element.append(line_elements.length - 1).append(DevsConfig.REGEX_ENTER);
-				sb_line.append(sb_element.toString());
+			matcher = pattern.matcher(line);
+			String date_time = "";
+			while (matcher.find()) {
+				date_time = matcher.group();
 			}
+			StringBuffer sb_element = new StringBuffer();
+			if (StringUtils.isNotEmpty(date_time)) {
+				int index_date_time_begin = line.indexOf(date_time);
+				String permission_owner_group_string = line.substring(0, index_date_time_begin);
+				String[] line_elements = permission_owner_group_string.split(DevsConfig.SEPERATOR_TAB);
+				for (int i = 0, j = 0; i < line_elements.length && j < 3; i++) {
+					if (StringUtils.isNotEmpty(line_elements[i])) {
+						sb_element.append(line_elements[i]).append(DevsConfig.SEPERATOR_COMMA);
+						j++;
+					}
+				}
+				String name = line.substring(index_date_time_begin + date_time.length(), line.length() );
+				sb_element.append(date_time).append(DevsConfig.SEPERATOR_COMMA).append(name.trim()).append(DevsConfig.REGEX_ENTER);
+			}
+			sb_line.append(sb_element.toString());
 		}
 		result = sb_line.toString();
 		return result;

@@ -16,9 +16,15 @@ public class DeviceTest {
 		String line = stdin.nextLine();
 		DevsCleaner cleaner = new DevsCleaner();
 		String result = cleaner.clean(line);
-//		CommonKits common_kits = new CommonKits();
-//		String line = "";
-//		String result = common_kits.formatDevsString(line);
+		System.out.print(result);
+	}
+	
+	
+	@Test
+	public void testAny() {
+		CommonKits common_kits = new CommonKits();
+		String line = "";
+		String result = common_kits.formatDevsString(line);
 		System.out.print(result);
 	}
 

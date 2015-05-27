@@ -133,19 +133,21 @@ public class DevsLog {
 		JsonElement obj = root.getAsJsonObject().get(DevsConfig.FIELDS_DEVS_AARAY);
 		if (obj != null) {
 			JsonArray devs_array = obj.getAsJsonArray();
-			StringBuffer sb_without_time = new StringBuffer();
+			StringBuffer sb_line = new StringBuffer();
 			String permission = "";
 			String name = "";
 			String group = "";
 			String owner = "";
+			String time = "";
 			for (int i = 0; i < devs_array.size(); i++) {
 				permission = devs_array.get(i).getAsJsonObject().get(DevsConfig.FIELDS_DEVS_AARAY_PERMISSION).getAsString();
 				name = devs_array.get(i).getAsJsonObject().get(DevsConfig.FIELDS_DEVS_AARAY_NAME).getAsString();
 				group = devs_array.get(i).getAsJsonObject().get(DevsConfig.FIELDS_DEVS_AARAY_GROUP).getAsString();
 				owner = devs_array.get(i).getAsJsonObject().get(DevsConfig.FIELDS_DEVS_AARAY_OWNER).getAsString();
-				sb_without_time.append(permission).append(DevsConfig.SEPERATOR_TAB).append(owner).append(DevsConfig.SEPERATOR_TAB).append(group).append(DevsConfig.SEPERATOR_TAB).append(name).append(DevsConfig.REGEX_ENTER);
+				time = devs_array.get(i).getAsJsonObject().get(DevsConfig.FIELDS_DEVS_AARAY_TIME).getAsString();
+				sb_line.append(permission).append(DevsConfig.SEPERATOR_COMMA).append(owner).append(DevsConfig.SEPERATOR_COMMA).append(group).append(DevsConfig.SEPERATOR_COMMA).append(time).append(DevsConfig.SEPERATOR_COMMA).append(name).append(DevsConfig.REGEX_ENTER);
 			}
-			raw_devs = sb_without_time.toString();
+			raw_devs = sb_line.toString();
 		}
 		String md5_devs = common_kits.getMd5(raw_devs);
 		sb.append(md5_devs).append(DevsConfig.SEPERATOR_VERTICAL_BAR).append(raw_devs);
