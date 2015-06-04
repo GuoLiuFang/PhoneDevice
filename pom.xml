@@ -7,7 +7,7 @@
 
 
 
-	<repositories>
+ 	<repositories>
 
 		<repository>
 			<id>cloudera-repo-releases</id>
